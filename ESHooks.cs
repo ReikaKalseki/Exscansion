@@ -23,6 +23,7 @@ namespace ReikaKalseki.Exscansion {
 	    	{"54701bfc-bb1a-4a84-8f79-ba4f76691bef", TechType.GhostLeviathan},
 	    	{"35ee775a-d54c-4e63-a058-95306346d582", TechType.SeaTreader},
 	    	{"ff43eacd-1a9e-4182-ab7b-aa43c16d1e53", TechType.SeaDragon},
+	    	{"c129d979-4f68-41d8-b9bc-557676d18a5a", TechType.TimeCapsule},
 	    };
 	    
 	    static ESHooks() {
@@ -34,6 +35,8 @@ namespace ReikaKalseki.Exscansion {
 	    	PrefabIdentifier pi = go.GetComponentInParent<PrefabIdentifier>();
 			if (pi && scannerInjections.ContainsKey(pi.ClassId)) {
 				TechType tt = scannerInjections[pi.ClassId];
+				if (tt == TechType.TimeCapsule && !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.TIMECAPSULE))
+					return;
 				ObjectUtil.makeMapRoomScannable(go, tt, true);
 	    	}
 	    	else if (pi && PrefabData.getPrefab(pi.ClassId) != null && PrefabData.getPrefab(pi.ClassId).Contains("Coral_reef_jeweled_disk")) {
@@ -69,9 +72,8 @@ namespace ReikaKalseki.Exscansion {
 			return ExscansionMod.config.getFloat(ESConfig.ConfigEntries.SPDAMT);
 		}
 	    
-	    public static void generateScannerRoomResourceList(uGUI_MapRoomScanner gui) {
+	    public static void filterScannerRoomResourceList(uGUI_MapRoomScanner gui) {
 	    	gui.availableTechTypes.RemoveWhere(item => !playerCanScanFor(item));
-	    	gui.RebuildResourceList();
 	    }
 	    
 	    private static bool playerCanScanFor(TechType tt) {
@@ -114,6 +116,8 @@ namespace ReikaKalseki.Exscansion {
 	    		case TechType.JumperEgg:
 	    		case TechType.SpadefishEgg:
 	    			return PDAScanner.complete.Contains(TechType.GenericEgg);
+	    		case TechType.TimeCapsule:
+	    			return ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.TIMECAPSULE);
 	    		default:
 	    			return true;
 	    	}

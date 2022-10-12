@@ -12,14 +12,14 @@ using ReikaKalseki.DIAlterra;
 namespace ReikaKalseki.Exscansion {
 	
 	[HarmonyPatch(typeof(uGUI_MapRoomScanner))]
-	[HarmonyPatch("UpdateAvailableTechTypes")]
+	[HarmonyPatch("RebuildResourceList")]
 	public static class ScannerTypeFilteringHook {
 		
 		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
 			try {
-				int idx = InstructionHandlers.getInstruction(codes, 0, 0, OpCodes.Call, "uGUI_MapRoomScanner", "RebuildResourceList", true, new Type[0]);
-				codes[idx].operand = InstructionHandlers.convertMethodOperand("ReikaKalseki.Exscansion.ESHooks", "generateScannerRoomResourceList", false, typeof(uGUI_MapRoomScanner));
+				CodeInstruction call = InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "filterScannerRoomResourceList", false, typeof(uGUI_MapRoomScanner));
+				InstructionHandlers.patchInitialHook(codes, new CodeInstruction(OpCodes.Ldarg_0), call);
 				FileLog.Log("Done patch "+MethodBase.GetCurrentMethod().DeclaringType);
 			}
 			catch (Exception e) {
