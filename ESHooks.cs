@@ -17,18 +17,35 @@ using ReikaKalseki.Exscansion;
 namespace ReikaKalseki.Exscansion {
 	
 	public static class ESHooks {
+
+		public static event Func<ResourceTracker, bool> scannabilityEvent;
 	    
 	    private static readonly Dictionary<string, TechType> scannerInjections = new Dictionary<string, TechType>() {
 	    	{"61ac1241-e990-4646-a618-bddb6960325b", TechType.SeaTreaderPoop},
 	    	{"54701bfc-bb1a-4a84-8f79-ba4f76691bef", TechType.GhostLeviathan},
+	    	{"5ea36b37-300f-4f01-96fa-003ae47c61e5", TechType.GhostLeviathanJuvenile},
 	    	{"35ee775a-d54c-4e63-a058-95306346d582", TechType.SeaTreader},
 	    	{"ff43eacd-1a9e-4182-ab7b-aa43c16d1e53", TechType.SeaDragon},
 	    	{"c129d979-4f68-41d8-b9bc-557676d18a5a", TechType.TimeCapsule},
 	    };
 	    
+	    private static readonly HashSet<TechType> leviathans = new HashSet<TechType>() {
+			TechType.ReaperLeviathan,
+	    	TechType.SeaDragon,
+	    	TechType.GhostLeviathanJuvenile,
+	    	TechType.GhostLeviathan,
+	    	TechType.SeaTreader,
+	    	TechType.SeaEmperorLeviathan,
+	    	TechType.Reefback,
+	    };
+	    
 	    static ESHooks() {
 	    	DIHooks.onSkyApplierSpawnEvent += onSkyApplierSpawn;
 	    }
+		
+		public static void addLeviathan(TechType tt) {
+			leviathans.Add(tt);
+		}
 	    
 	    public static void onSkyApplierSpawn(SkyApplier pk) {
 	    	GameObject go = pk.gameObject;
@@ -77,26 +94,21 @@ namespace ReikaKalseki.Exscansion {
 	    }
 	    
 	    private static bool playerCanScanFor(TechType tt) {
+			if (leviathans.Contains(tt))
+				return PDAScanner.complete.Contains(tt) || !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.LEVISCAN);
 	    	switch(tt) {
-	    		case TechType.ReaperLeviathan:
-	    		case TechType.SeaDragon:
-	    		case TechType.GhostLeviathanJuvenile:
-	    		case TechType.GhostLeviathan:
-	    		case TechType.SeaTreader:
-	    		case TechType.SeaEmperorLeviathan:
-	    		case TechType.Reefback:
-					return PDAScanner.complete.Contains(tt) || !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.LEVISCAN);
 	    		case TechType.LimestoneChunk:
 	    		case TechType.SandstoneChunk:
 	    		case TechType.BasaltChunk:
 	    			
 	    		case TechType.PrecursorIonCrystal:
+	    			return PDAScanner.complete.Contains(tt);
 	    		case TechType.PrecursorKey_Purple:
 	    		case TechType.PrecursorKey_Blue:
 	    		case TechType.PrecursorKey_Red:
 	    		case TechType.PrecursorKey_White:
 	    		case TechType.PrecursorKey_Orange:
-	    			return PDAScanner.complete.Contains(tt);
+	    			return KnownTech.knownTech.Contains(tt);
 	    		case TechType.StalkerTooth:
 	    			return PDAScanner.complete.Contains(TechType.Stalker);
 	    		case TechType.GenericEgg:
@@ -146,6 +158,9 @@ namespace ReikaKalseki.Exscansion {
 	    }
 	    */
 	    public static bool isObjectVisibleToScannerRoom(ResourceTracker rt) {
+	   		if (scannabilityEvent != null)
+	   			if (!scannabilityEvent.Invoke(rt))
+	   				return false;
 	   		//SNUtil.log("Checking scanner visibility of "+rt.gameObject+" @ "+rt.gameObject.transform.position+": "+rt.gameObject.GetComponentInChildren<Drillable>());
 	    	if (rt.gameObject.GetComponentInChildren<Drillable>() && !(KnownTech.knownTech.Contains(TechType.ExosuitDrillArmModule) && KnownTech.knownTech.Contains(TechType.Exosuit)))
 	    		return false;
