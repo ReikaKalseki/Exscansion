@@ -164,7 +164,16 @@ namespace ReikaKalseki.Exscansion {
 	   		//SNUtil.log("Checking scanner visibility of "+rt.gameObject+" @ "+rt.gameObject.transform.position+": "+rt.gameObject.GetComponentInChildren<Drillable>());
 	    	if (rt.gameObject.GetComponentInChildren<Drillable>() && !(KnownTech.knownTech.Contains(TechType.ExosuitDrillArmModule) && KnownTech.knownTech.Contains(TechType.Exosuit)))
 	    		return false;
+	    	BlueprintHandTarget bpt = rt.gameObject.FindAncestor<BlueprintHandTarget>();
+	    	if (bpt && bpt.used)
+	    		return false;
 	    	return true;
 	    }
+	   
+	   public static void initializeResourceTracker(ResourceTracker rt) {
+	   	if (!isObjectVisibleToScannerRoom(rt)) {
+	   		rt.Unregister();
+	   	}
+	   }
 	}
 }
