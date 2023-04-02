@@ -41,7 +41,12 @@ namespace ReikaKalseki.Exscansion {
 	    
 	    static ESHooks() {
 	    	DIHooks.onSkyApplierSpawnEvent += onSkyApplierSpawn;
+	    	DIHooks.onWorldLoadedEvent += onWorldLoaded;
 	    }
+		
+		public static void onWorldLoaded() {
+			//NotificationManager.main.Subscribe(new NotificationListener(), new List<NotificationManager.NotificationId>{new NotificationManager.NotificationId(NotificationManager.Group.Encyclopedia, Stalker)});
+		}
 		
 		public static void addLeviathan(TechType tt) {
 			leviathans.Add(tt);
@@ -99,18 +104,23 @@ namespace ReikaKalseki.Exscansion {
 	    	switch(tt) {
 	    		case TechType.LimestoneChunk:
 	    		case TechType.SandstoneChunk:
-	    		case TechType.BasaltChunk:
-	    			
+	    		case TechType.BasaltChunk:	    			
 	    		case TechType.PrecursorIonCrystal:
-	    			return PDAScanner.complete.Contains(tt);
+				case TechType.AluminumOxide:
+				case TechType.Diamond:
+				case TechType.Lithium:
+				case TechType.Nickel:
+				case TechType.Kyanite:
+				case TechType.UraniniteCrystal:
+	    			return !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.RESSCAN) || PDAScanner.complete.Contains(tt);
 	    		case TechType.PrecursorKey_Purple:
 	    		case TechType.PrecursorKey_Blue:
 	    		case TechType.PrecursorKey_Red:
 	    		case TechType.PrecursorKey_White:
 	    		case TechType.PrecursorKey_Orange:
-	    			return KnownTech.knownTech.Contains(tt);
+	    			return false;//KnownTech.knownTech.Contains(tt);
 	    		case TechType.StalkerTooth:
-	    			return PDAScanner.complete.Contains(TechType.Stalker);
+	    			return PDAScanner.complete.Contains(TechType.StalkerTooth);
 	    		case TechType.GenericEgg:
 	    		case TechType.StalkerEgg:
 	    		case TechType.BonesharkEgg:
@@ -127,7 +137,7 @@ namespace ReikaKalseki.Exscansion {
 	    		case TechType.LavaLizardEgg:
 	    		case TechType.JumperEgg:
 	    		case TechType.SpadefishEgg:
-	    			return PDAScanner.complete.Contains(TechType.GenericEgg);
+	    			return PDAEncyclopedia.entries.ContainsKey("UnknownEgg");//PDAScanner.complete.Contains(TechType.GenericEgg);
 	    		case TechType.TimeCapsule:
 	    			return ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.TIMECAPSULE);
 	    		default:
@@ -174,6 +184,14 @@ namespace ReikaKalseki.Exscansion {
 	   	if (!isObjectVisibleToScannerRoom(rt)) {
 	   		rt.Unregister();
 	   	}
+	   }
+	   
+	   public static void updatePingHUDVisibility(uGUI_ResourceTracker gui) {/*
+	   	bool orig = gui.showGUI;
+	   	gui.showGUI = gui.showGUI && !Player.main.IsInBase();
+	   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
+	   	if (gui && Player.main)
+	   		gui.gameObject.SetActive(!Player.main.IsInBase());
 	   }
 	}
 }

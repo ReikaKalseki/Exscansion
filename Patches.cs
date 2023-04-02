@@ -218,4 +218,25 @@ namespace ReikaKalseki.Exscansion {
 			return codes.AsEnumerable();
 		}
 	}
+	
+	[HarmonyPatch(typeof(uGUI_ResourceTracker))]
+	[HarmonyPatch("UpdateVisibility")]
+	public static class PingHUDVisibility {
+		
+		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+			List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+			try {
+				CodeInstruction call = InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "updatePingHUDVisibility", false, typeof(uGUI_ResourceTracker));
+				InstructionHandlers.patchEveryReturnPre(codes, new CodeInstruction(OpCodes.Ldarg_0), call);
+				FileLog.Log("Done patch "+MethodBase.GetCurrentMethod().DeclaringType);
+			}
+			catch (Exception e) {
+				FileLog.Log("Caught exception when running patch "+MethodBase.GetCurrentMethod().DeclaringType+"!");
+				FileLog.Log(e.Message);
+				FileLog.Log(e.StackTrace);
+				FileLog.Log(e.ToString());
+			}
+			return codes.AsEnumerable();
+		}
+	}
 }
