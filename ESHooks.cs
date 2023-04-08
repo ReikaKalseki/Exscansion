@@ -104,11 +104,14 @@ namespace ReikaKalseki.Exscansion {
 	    	switch(tt) {
 	    		case TechType.LimestoneChunk:
 	    		case TechType.SandstoneChunk:
+	    		case TechType.ShaleChunk:
+	    		case TechType.Sulphur:
+	    		case TechType.Magnetite:
 	    		case TechType.BasaltChunk:	    			
 	    		case TechType.PrecursorIonCrystal:
 				case TechType.AluminumOxide:
-				case TechType.Diamond:
-				case TechType.Lithium:
+				//case TechType.Diamond: these two have no scan entries, do not gate
+				//case TechType.Lithium:
 				case TechType.Nickel:
 				case TechType.Kyanite:
 				case TechType.UraniniteCrystal:
