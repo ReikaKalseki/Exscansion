@@ -19,6 +19,7 @@ namespace ReikaKalseki.Exscansion
 			[ConfigEntry("Base Scanner Speed Per Ping (s)", typeof(float), 14, 1, 3600, 14)]BASESPEED,
 			[ConfigEntry("Speed Upgrade Value (s)", typeof(float), 3, 1, 30, 3)]SPDAMT,
 			[ConfigEntry("Resources Need To Be Scanned Before Scanner Room Detection", true)]RESSCAN,
+			[ConfigEntry("Stalker Teeth To Be Scanned Before Scanner Room Detection", false)]TOOTHSCAN,
 		}
 	}
 }

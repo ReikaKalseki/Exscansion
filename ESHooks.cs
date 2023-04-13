@@ -123,7 +123,7 @@ namespace ReikaKalseki.Exscansion {
 	    		case TechType.PrecursorKey_Orange:
 	    			return false;//KnownTech.knownTech.Contains(tt);
 	    		case TechType.StalkerTooth:
-	    			return PDAScanner.complete.Contains(TechType.StalkerTooth);
+	    			return !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.TOOTHSCAN) || PDAScanner.complete.Contains(TechType.StalkerTooth);
 	    		case TechType.GenericEgg:
 	    		case TechType.StalkerEgg:
 	    		case TechType.BonesharkEgg:
@@ -194,7 +194,7 @@ namespace ReikaKalseki.Exscansion {
 	   	gui.showGUI = gui.showGUI && !Player.main.IsInBase();
 	   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
 	   	if (gui && Player.main)
-	   		gui.gameObject.SetActive(!Player.main.IsInBase());
+	   		gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase);
 	   }
 	}
 }
