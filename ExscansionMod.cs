@@ -43,6 +43,8 @@ namespace ReikaKalseki.Exscansion
 			FileLog.Log(ex.StackTrace);
 			FileLog.Log(ex.ToString());
         }
+        
+        ModVersionCheck.getFromGitVsInstall("Exscansion", modDLL, "Exscansion").register();
 		
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(ESHooks).TypeHandle);
     }

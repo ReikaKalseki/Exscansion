@@ -18,7 +18,7 @@ namespace ReikaKalseki.Exscansion {
 	
 	public static class ESHooks {
 
-		public static event Func<ResourceTracker, bool> scannabilityEvent;
+		public static event Action<ResourceScanCheck> scannabilityEvent;
 	    
 	    private static readonly Dictionary<string, TechType> scannerInjections = new Dictionary<string, TechType>() {
 	    	{"61ac1241-e990-4646-a618-bddb6960325b", TechType.SeaTreaderPoop},
@@ -171,9 +171,12 @@ namespace ReikaKalseki.Exscansion {
 	    }
 	    */
 	    public static bool isObjectVisibleToScannerRoom(ResourceTracker rt) {
-	   		if (scannabilityEvent != null)
-	   			if (!scannabilityEvent.Invoke(rt))
-	   				return false;
+		   	if (scannabilityEvent != null) {
+	   			ResourceScanCheck rs = new ResourceScanCheck(rt);
+	   			scannabilityEvent.Invoke(rs);
+		   		if (!rs.isDetectable)
+		   			return false;
+		   	}
 	   		//SNUtil.log("Checking scanner visibility of "+rt.gameObject+" @ "+rt.gameObject.transform.position+": "+rt.gameObject.GetComponentInChildren<Drillable>());
 	    	if (rt.gameObject.GetComponentInChildren<Drillable>() && !(KnownTech.knownTech.Contains(TechType.ExosuitDrillArmModule) && KnownTech.knownTech.Contains(TechType.Exosuit)))
 	    		return false;
@@ -195,6 +198,18 @@ namespace ReikaKalseki.Exscansion {
 	   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
 	   	if (gui && Player.main)
 	   		gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase);
+	   }
+	   
+	   public class ResourceScanCheck {
+	   	
+	   		public readonly ResourceTracker resource;
+	   		
+	   		public bool isDetectable;
+	   		
+	   		internal ResourceScanCheck(ResourceTracker rt) {
+	   			resource = rt;
+	   			isDetectable = true;
+	   		}
 	   }
 	}
 }
