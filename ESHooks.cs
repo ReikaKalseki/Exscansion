@@ -197,7 +197,7 @@ namespace ReikaKalseki.Exscansion {
 	   	gui.showGUI = gui.showGUI && !Player.main.IsInBase();
 	   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
 	   	if (gui && Player.main)
-	   		gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase);
+	   		gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase || Vector3.Distance(Camera.main.transform.position, Player.main.transform.position) > 4);
 	   }
 	   
 	   public class ResourceScanCheck {
