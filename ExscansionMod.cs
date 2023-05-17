@@ -23,7 +23,7 @@ namespace ReikaKalseki.Exscansion
     //public static readonly ModLogger logger = new ModLogger();
 	public static readonly Assembly modDLL = Assembly.GetExecutingAssembly();
     
-    public static readonly Config<ESConfig.ConfigEntries> config = new Config<ESConfig.ConfigEntries>();
+    public static readonly Config<ESConfig.ConfigEntries> config = new Config<ESConfig.ConfigEntries>(modDLL);
 
     [QModPatch]
     public static void Load() {
@@ -45,6 +45,7 @@ namespace ReikaKalseki.Exscansion
         }
         
         ModVersionCheck.getFromGitVsInstall("Exscansion", modDLL, "Exscansion").register();
+        SNUtil.checkModHash(modDLL);
 		
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(ESHooks).TypeHandle);
     }
