@@ -239,4 +239,25 @@ namespace ReikaKalseki.Exscansion {
 			return codes.AsEnumerable();
 		}
 	}
+	
+	[HarmonyPatch(typeof(uGUI_ResourceTracker))]
+	[HarmonyPatch("UpdateBlips")]
+	public static class PingHUDGenerationHook {
+		
+		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+			List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+			try {
+				int idx = InstructionHandlers.getInstruction(codes, 0, 1, OpCodes.Stfld, "uGUI_ResourceTracker+Blip", "techType");
+				codes[idx] = InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "setResourcePingType", false, typeof(uGUI_ResourceTracker.Blip), typeof(TechType));
+				FileLog.Log("Done patch "+MethodBase.GetCurrentMethod().DeclaringType);
+			}
+			catch (Exception e) {
+				FileLog.Log("Caught exception when running patch "+MethodBase.GetCurrentMethod().DeclaringType+"!");
+				FileLog.Log(e.Message);
+				FileLog.Log(e.StackTrace);
+				FileLog.Log(e.ToString());
+			}
+			return codes.AsEnumerable();
+		}
+	}
 }

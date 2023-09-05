@@ -48,6 +48,23 @@ namespace ReikaKalseki.Exscansion
         SNUtil.checkModHash(modDLL);
 		
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(ESHooks).TypeHandle);
+        
+        foreach (string line in File.ReadAllLines(Path.Combine(Path.GetDirectoryName(modDLL.Location), "scanner_ping_colors.txt"))) {
+        	string[] split = line.Split(new char[]{'='}, StringSplitOptions.RemoveEmptyEntries);
+        	if (split.Length == 2) {
+        		TechType find = SNUtil.getTechType(split[0]);
+        		if (find != TechType.None) {
+        			string[] parts = split[1].Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
+        			int red = 0;
+        			int green = 0;
+        			int blue = 0;
+        			if (parts.Length >= 3 && int.TryParse(parts[0], out red) && int.TryParse(parts[1], out green) && int.TryParse(parts[2], out blue)) {
+        				ESHooks.pingColors[find] = new Color(red/255F, green/255F, blue/255F, 1);
+        				SNUtil.log("Setting scanner ping color: "+find+" = "+ESHooks.pingColors[find]);
+        			}
+        		}
+        	}
+        }
     }
 
   }

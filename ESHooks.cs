@@ -10,6 +10,7 @@ using SMLHelper.V2.Assets;
 using SMLHelper.V2.Utility;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 using ReikaKalseki.DIAlterra;
 using ReikaKalseki.Exscansion;
@@ -38,6 +39,10 @@ namespace ReikaKalseki.Exscansion {
 	    	TechType.SeaEmperorLeviathan,
 	    	TechType.Reefback,
 	    };
+		
+		internal static readonly Color DEFAULT_PING_COLOR = new Color(1, 186/255F, 0, 1);
+		
+		internal static readonly Dictionary<TechType, Color> pingColors = new Dictionary<TechType, Color>();
 	    
 	    static ESHooks() {
 	    	DIHooks.onSkyApplierSpawnEvent += onSkyApplierSpawn;
@@ -198,6 +203,23 @@ namespace ReikaKalseki.Exscansion {
 	   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
 	   	if (gui && Player.main && Camera.main)
 	   		gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase || Vector3.Distance(Camera.main.transform.position, Player.main.transform.position) > 4);
+	   }
+	   
+	   public static void setResourcePingType(uGUI_ResourceTracker.Blip blip, TechType type) { //default color is 0xFFBA00
+	   		blip.techType = type;
+	   		if (!ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.PINGCOLOR))
+	   			return;
+	   		CanvasRenderer render = blip.gameObject.GetComponent<CanvasRenderer>();
+	   		Image img = blip.gameObject.GetComponent<Image>();
+	   		img.sprite = img.sprite.setTexture(TextureManager.getTexture(ExscansionMod.modDLL, "Textures/blip"));
+	   		Color c = DEFAULT_PING_COLOR;
+	   		if (pingColors.ContainsKey(type))
+	   			c = pingColors[type];
+	   		img.material.SetColor("_Color", c);
+	   		render.SetColor(c);
+	   		blip.gameObject.GetComponentInChildren<Text>().color = c;
+	   		if (blip.techType == TechType.Quartz)
+	   			blip.gameObject.GetComponentInChildren<CanvasRenderer>().SetColor(Color.red);
 	   }
 	   
 	   public class ResourceScanCheck {
