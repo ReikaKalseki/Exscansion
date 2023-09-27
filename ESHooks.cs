@@ -47,6 +47,7 @@ namespace ReikaKalseki.Exscansion {
 	    static ESHooks() {
 	    	DIHooks.onSkyApplierSpawnEvent += onSkyApplierSpawn;
 	    	DIHooks.onWorldLoadedEvent += onWorldLoaded;
+	    	DIHooks.scannerRoomTechTypeListingEvent += (gui) => gui.availableTechTypes.RemoveWhere(item => !playerCanScanFor(item));
 	    }
 		
 		public static void onWorldLoaded() {
@@ -98,10 +99,6 @@ namespace ReikaKalseki.Exscansion {
 		public static float getSpeedUpgradeValue() {
 			return ExscansionMod.config.getFloat(ESConfig.ConfigEntries.SPDAMT);
 		}
-	    
-	    public static void filterScannerRoomResourceList(uGUI_MapRoomScanner gui) {
-	    	gui.availableTechTypes.RemoveWhere(item => !playerCanScanFor(item));
-	    }
 	    
 	    private static bool playerCanScanFor(TechType tt) {
 			if (leviathans.Contains(tt))
