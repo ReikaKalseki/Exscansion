@@ -189,9 +189,9 @@ namespace ReikaKalseki.Exscansion {
 	    }
 	   
 	   public static void initializeResourceTracker(ResourceTracker rt) {
-	   	if (!isObjectVisibleToScannerRoom(rt)) {
-	   		rt.Unregister();
-	   	}
+	   		if (!isObjectVisibleToScannerRoom(rt)) {
+	   			rt.Unregister();
+	   		}
 	   }
 	   
 	   public static void updatePingHUDVisibility(uGUI_ResourceTracker gui) {/*

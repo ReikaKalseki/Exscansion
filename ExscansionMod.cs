@@ -20,7 +20,6 @@ namespace ReikaKalseki.Exscansion
   	
     public const string MOD_KEY = "ReikaKalseki.Exscansion";
     
-    //public static readonly ModLogger logger = new ModLogger();
 	public static readonly Assembly modDLL = Assembly.GetExecutingAssembly();
     
     public static readonly Config<ESConfig.ConfigEntries> config = new Config<ESConfig.ConfigEntries>(modDLL);
