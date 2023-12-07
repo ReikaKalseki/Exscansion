@@ -21,6 +21,8 @@ namespace ReikaKalseki.Exscansion
 			[ConfigEntry("Resources Need To Be Scanned Before Scanner Room Detection", true)]RESSCAN,
 			[ConfigEntry("Stalker Teeth To Be Scanned Before Scanner Room Detection", false)]TOOTHSCAN,
 			[ConfigEntry("Enable Scanner Ping Color Coding", true)]PINGCOLOR,
+			[ConfigEntry("Allow Scanner Rooms To Find Abandoned Bases (As Mystery Contact)", true)]BASES,
+			[ConfigEntry("Allow Scanner Rooms To Find Precursor Facilities (As Mystery Contact)", true)]ALIEN,
 		}
 	}
 }

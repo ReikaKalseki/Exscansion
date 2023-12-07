@@ -21,14 +21,7 @@ namespace ReikaKalseki.Exscansion {
 
 		public static event Action<ResourceScanCheck> scannabilityEvent;
 	    
-	    private static readonly Dictionary<string, TechType> scannerInjections = new Dictionary<string, TechType>() {
-	    	{"61ac1241-e990-4646-a618-bddb6960325b", TechType.SeaTreaderPoop},
-	    	{"54701bfc-bb1a-4a84-8f79-ba4f76691bef", TechType.GhostLeviathan},
-	    	{"5ea36b37-300f-4f01-96fa-003ae47c61e5", TechType.GhostLeviathanJuvenile},
-	    	{"35ee775a-d54c-4e63-a058-95306346d582", TechType.SeaTreader},
-	    	{"ff43eacd-1a9e-4182-ab7b-aa43c16d1e53", TechType.SeaDragon},
-	    	{"c129d979-4f68-41d8-b9bc-557676d18a5a", TechType.TimeCapsule},
-	    };
+		private static readonly Dictionary<string, TechType> scannerInjections;
 	    
 	    private static readonly HashSet<TechType> leviathans = new HashSet<TechType>() {
 			TechType.ReaperLeviathan,
@@ -45,9 +38,35 @@ namespace ReikaKalseki.Exscansion {
 		internal static readonly Dictionary<TechType, Color> pingColors = new Dictionary<TechType, Color>();
 	    
 	    static ESHooks() {
+			SNUtil.log("Initializing ESHooks");
 	    	DIHooks.onSkyApplierSpawnEvent += onSkyApplierSpawn;
 	    	DIHooks.onWorldLoadedEvent += onWorldLoaded;
 	    	DIHooks.scannerRoomTechTypeListingEvent += (gui) => gui.availableTechTypes.RemoveWhere(item => !playerCanScanFor(item));
+	    	
+	    	scannerInjections = new Dictionary<string, TechType>();
+	    	scannerInjections["61ac1241-e990-4646-a618-bddb6960325b"] = TechType.SeaTreaderPoop;
+			scannerInjections["54701bfc-bb1a-4a84-8f79-ba4f76691bef"] = TechType.GhostLeviathan;
+			scannerInjections["5ea36b37-300f-4f01-96fa-003ae47c61e5"] = TechType.GhostLeviathanJuvenile;
+			scannerInjections["35ee775a-d54c-4e63-a058-95306346d582"] = TechType.SeaTreader;
+	    	scannerInjections["ff43eacd-1a9e-4182-ab7b-aa43c16d1e53"] = TechType.SeaDragon;
+	    	scannerInjections["c129d979-4f68-41d8-b9bc-557676d18a5a"] = TechType.TimeCapsule;
+	    	
+	    	if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES)) {
+	    		scannerInjections["2921736c-c898-4213-9615-ea1a72e28178"] = ExscansionMod.abandonedBase.markerType; //jellyshroom
+	    		scannerInjections["42a80cbc-d9fd-49d2-94b3-b5178024b3cb"] = ExscansionMod.abandonedBase.markerType; //dgr
+	    		scannerInjections["99b164ac-dfb4-4a14-b305-8666fa227717"] = ExscansionMod.abandonedBase.markerType; //float ctr
+	    		scannerInjections["569f22e0-274d-49b0-ae5e-21ef0ce907ca"] = ExscansionMod.abandonedBase.markerType; //float mtn1
+	    		scannerInjections["0e394d55-da8c-4b3e-b038-979477ce77c1"] = ExscansionMod.abandonedBase.markerType; //float mtn2
+	    		
+	    		SeabaseReconstruction.WorldgenSeabaseController.onWorldgenSeabaseLoad += bb => ObjectUtil.makeMapRoomScannable(bb.gameObject, ExscansionMod.abandonedBase.markerType);
+	    	}
+	    	if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN)) {
+	    		scannerInjections["22fb9ee9-690d-426c-844f-a80e527b5fe6"] = ExscansionMod.alienBase.markerType; //gun
+	    		scannerInjections["80f6c46a-ecfe-4a19-b05f-0466eafde411"] = ExscansionMod.alienBase.markerType; //drf
+	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
+	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
+	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
+	    	}
 	    }
 		
 		public static void onWorldLoaded() {
@@ -72,7 +91,10 @@ namespace ReikaKalseki.Exscansion {
 	    	}
 	    	else if (ObjectUtil.isPDA(go)) {
 				ObjectUtil.makeMapRoomScannable(go, TechType.PDA);
-	    	}
+	    	}/*
+	    	if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN) && go.GetComponent<PrecursorTeleporter>()) {
+	    		ObjectUtil.makeMapRoomScannable(go, ExscansionMod.alienBase.markerType);
+	    	}*/
 	    }
 		
 		public static float getScannerBaseRange() {

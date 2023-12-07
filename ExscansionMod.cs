@@ -23,6 +23,9 @@ namespace ReikaKalseki.Exscansion
 	public static readonly Assembly modDLL = Assembly.GetExecutingAssembly();
     
     public static readonly Config<ESConfig.ConfigEntries> config = new Config<ESConfig.ConfigEntries>(modDLL);
+    
+    internal static ScannerRoomMarker abandonedBase;
+    internal static ScannerRoomMarker alienBase;
 
     [QModPatch]
     public static void Load() {
@@ -45,6 +48,28 @@ namespace ReikaKalseki.Exscansion
         
         ModVersionCheck.getFromGitVsInstall("Exscansion", modDLL, "Exscansion").register();
         SNUtil.checkModHash(modDLL);
+        
+        abandonedBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AbandonedBase", "Titanium Mass", ""));
+		alienBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AlienBase", "Unidentified Object", ""));
+		abandonedBase.Patch();
+		alienBase.Patch();
+		/*
+		if (config.getBoolean(ESConfig.ConfigEntries.BASES)) {
+			GenUtil.registerWorldgen(new PositionedPrefab(abandonedBase.ClassID, new Vector3(0, 0, 0)));
+			GenUtil.registerWorldgen(new PositionedPrefab(abandonedBase.ClassID, new Vector3(0, 0, 0)));
+			GenUtil.registerWorldgen(new PositionedPrefab(abandonedBase.ClassID, new Vector3(0, 0, 0)));
+			
+			GenUtil.registerWorldgen(new PositionedPrefab(abandonedBase.ClassID, new Vector3(0, 0, 0)));
+			GenUtil.registerWorldgen(new PositionedPrefab(abandonedBase.ClassID, new Vector3(0, 0, 0)));
+		}*/
+		if (config.getBoolean(ESConfig.ConfigEntries.ALIEN)) {
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-56, -1211, 116)));
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(265, -1440, -347)));
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-890, -311, -816))); //sparse reef
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-1224, -395, 1072.5F))); //meteor
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-628.5F, -559, 1485))); //nbkelp
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-1119, -685, -692))); //lr lab cache
+		}
 		
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(ESHooks).TypeHandle);
         
