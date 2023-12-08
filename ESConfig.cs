@@ -23,6 +23,7 @@ namespace ReikaKalseki.Exscansion
 			[ConfigEntry("Enable Scanner Ping Color Coding", true)]PINGCOLOR,
 			[ConfigEntry("Allow Scanner Rooms To Find Abandoned Bases (As Mystery Contact)", true)]BASES,
 			[ConfigEntry("Allow Scanner Rooms To Find Precursor Facilities (As Mystery Contact)", true)]ALIEN,
+			[ConfigEntry("Allow Scanner Rooms To Find Fossils (As Mystery Contact)", true)]FOSSILS,
 		}
 	}
 }

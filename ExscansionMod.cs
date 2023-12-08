@@ -26,6 +26,7 @@ namespace ReikaKalseki.Exscansion
     
     internal static ScannerRoomMarker abandonedBase;
     internal static ScannerRoomMarker alienBase;
+    internal static ScannerRoomMarker fossils;
 
     [QModPatch]
     public static void Load() {
@@ -51,8 +52,10 @@ namespace ReikaKalseki.Exscansion
         
         abandonedBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AbandonedBase", "Titanium Mass", ""));
 		alienBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AlienBase", "Unidentified Object", ""));
+		fossils = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "Fossils", "Fossilized Remains", ""));
 		abandonedBase.Patch();
 		alienBase.Patch();
+		fossils.Patch();
 		/*
 		if (config.getBoolean(ESConfig.ConfigEntries.BASES)) {
 			GenUtil.registerWorldgen(new PositionedPrefab(abandonedBase.ClassID, new Vector3(0, 0, 0)));

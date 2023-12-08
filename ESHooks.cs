@@ -67,6 +67,18 @@ namespace ReikaKalseki.Exscansion {
 	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 	    	}
+	    	if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.FOSSILS)) {
+	    		scannerInjections["0010bf17-15be-4350-955b-b4ac023815f3"] = ExscansionMod.fossils.markerType; //garg
+	    		scannerInjections["0552b196-d09a-45dd-b064-878966476179"] = ExscansionMod.fossils.markerType; //sea dragon
+	    		scannerInjections["0b6ea118-1c0b-4039-afdb-2d9b26401ad2"] = ExscansionMod.fossils.markerType; //generic 01 (ghost canyon, crossing)
+	    		scannerInjections["e10ff9a1-5f1e-4c4d-bf5f-170dba9e321b"] = ExscansionMod.fossils.markerType; //generic 02 (ghost canyon, crossing)
+	    		scannerInjections["358012ab-6be8-412d-85ee-263a733c88ba"] = ExscansionMod.fossils.markerType; //generic 03 (ghost canyon, crossing)
+	    		scannerInjections["8fe779a5-e907-4e9e-b748-1eee25589b34"] = ExscansionMod.fossils.markerType; //reaper
+	    		scannerInjections["bfe993b9-8d6d-441c-922e-7dc074d81d3f"] = ExscansionMod.fossils.markerType; //reaper 2
+	    		scannerInjections["71bf71c2-ecfb-47c0-aafe-040030d5954f"] = ExscansionMod.fossils.markerType; //drf specimen
+	    		scannerInjections["b250309e-5ad0-43ca-9297-f79e22915db6"] = ExscansionMod.fossils.markerType; //mini garg skull (ghost forest)
+	    		scannerInjections["0010bf17-15be-4350-955b-b4ac023815f3"] = ExscansionMod.fossils.markerType; //armored skull (ghost canyon)
+	    	}
 	    }
 		
 		public static void onWorldLoaded() {
@@ -95,6 +107,10 @@ namespace ReikaKalseki.Exscansion {
 	    	if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN) && go.GetComponent<PrecursorTeleporter>()) {
 	    		ObjectUtil.makeMapRoomScannable(go, ExscansionMod.alienBase.markerType);
 	    	}*/
+	    	Drillable dr = pk.GetComponent<Drillable>();
+	    	if (dr && dr.resources.Length == 1 && PDAScanner.GetEntryData(dr.resources[0].techType) != null && !pk.GetComponent<TechTag>()) {
+	    		go.EnsureComponent<TechTag>().type = dr.resources[0].techType;
+	    	}
 	    }
 		
 		public static float getScannerBaseRange() {
