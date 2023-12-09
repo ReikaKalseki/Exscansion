@@ -63,6 +63,12 @@ namespace ReikaKalseki.Exscansion {
 	    	if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN)) {
 	    		scannerInjections["22fb9ee9-690d-426c-844f-a80e527b5fe6"] = ExscansionMod.alienBase.markerType; //gun
 	    		scannerInjections["80f6c46a-ecfe-4a19-b05f-0466eafde411"] = ExscansionMod.alienBase.markerType; //drf
+	    		
+	    		scannerInjections["5cebe7f6-b1ce-4ae0-8008-ccfdac5d5690"] = ExscansionMod.alienBase.markerType; //mushroom arch
+	    		scannerInjections["2a579d8a-5833-4415-acf9-5d7c4d00c65e"] = ExscansionMod.alienBase.markerType; //lr arch
+	    		scannerInjections["beb02a51-139f-4cb1-b7fd-831f8d00e55e"] = ExscansionMod.alienBase.markerType; //koosh arch
+	    		scannerInjections["50716be9-fb9c-4da4-9f3f-8916cbdbfdaf"] = ExscansionMod.alienBase.markerType; //crag arch
+	    		
 	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 	    		//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
