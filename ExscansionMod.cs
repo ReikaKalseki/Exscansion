@@ -73,6 +73,9 @@ namespace ReikaKalseki.Exscansion
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-628.5F, -559, 1485))); //nbkelp
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-1119, -685, -692))); //lr lab cache
 		}
+		if (config.getBoolean(ESConfig.ConfigEntries.FOSSILS)) {
+			GenUtil.registerWorldgen(new PositionedPrefab(fossils.ClassID, new Vector3(-481, -798, 13))); //lr steps ribs
+		}
 		
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(ESHooks).TypeHandle);
         
