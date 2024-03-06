@@ -97,6 +97,8 @@ namespace ReikaKalseki.Exscansion {
 	    
 	    public static void onSkyApplierSpawn(SkyApplier pk) {
 	    	GameObject go = pk.gameObject;
+	    	if (go.name.StartsWith("Seamoth", StringComparison.InvariantCultureIgnoreCase) && go.name.EndsWith("Arm(Clone)", StringComparison.InvariantCultureIgnoreCase))
+	    		return;
 	    	PrefabIdentifier pi = go.GetComponentInParent<PrefabIdentifier>();
 			if (pi && scannerInjections.ContainsKey(pi.ClassId)) {
 				TechType tt = scannerInjections[pi.ClassId];
