@@ -24,9 +24,9 @@ namespace ReikaKalseki.Exscansion
     
     public static readonly Config<ESConfig.ConfigEntries> config = new Config<ESConfig.ConfigEntries>(modDLL);
     
-    internal static ScannerRoomMarker abandonedBase;
-    internal static ScannerRoomMarker alienBase;
-    internal static ScannerRoomMarker fossils;
+    public static ScannerRoomMarker abandonedBase;
+    public static ScannerRoomMarker alienBase;
+    public static ScannerRoomMarker fossils;
 
     [QModPatch]
     public static void Load() {
@@ -68,6 +68,7 @@ namespace ReikaKalseki.Exscansion
 		if (config.getBoolean(ESConfig.ConfigEntries.ALIEN)) {
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-56, -1211, 116)));
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(265, -1440, -347)));
+			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-252, -814, 316))); //drf
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-890, -311, -816))); //sparse reef
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-1224, -395, 1072.5F))); //meteor
 			GenUtil.registerWorldgen(new PositionedPrefab(alienBase.ClassID, new Vector3(-628.5F, -559, 1485))); //nbkelp
