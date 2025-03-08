@@ -106,13 +106,16 @@ namespace ReikaKalseki.Exscansion {
 					return;
 				ObjectUtil.makeMapRoomScannable(go, tt, true);
 			}
-			else if (pi && PrefabData.getPrefab(pi.ClassId) != null && PrefabData.getPrefab(pi.ClassId).Contains("Coral_reef_jeweled_disk")) {
+			else
+			if (pi && PrefabData.getPrefab(pi.ClassId) != null && PrefabData.getPrefab(pi.ClassId).Contains("Coral_reef_jeweled_disk")) {
 				ObjectUtil.makeMapRoomScannable(go, TechType.JeweledDiskPiece);
 			}
-			else if (ObjectUtil.isPDA(go)) {
+			else
+			if (ObjectUtil.isPDA(go)) {
 				ObjectUtil.makeMapRoomScannable(go, TechType.PDA);
 			}
-			else if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES) && go.GetComponent<SeabaseReconstruction.WorldgenSeabaseController>()) {
+			else
+			if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES) && go.GetComponent<SeabaseReconstruction.WorldgenSeabaseController>()) {
 				ObjectUtil.makeMapRoomScannable(go, ExscansionMod.abandonedBase.TechType);
 			}/*
 	    	else if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN) && go.GetComponent<PrecursorTeleporter>()) {
@@ -245,11 +248,11 @@ namespace ReikaKalseki.Exscansion {
 		}
 	   
 		public static void updatePingHUDVisibility(uGUI_ResourceTracker gui) {/*
-	   	bool orig = gui.showGUI;
-	   	gui.showGUI = gui.showGUI && !Player.main.IsInBase();
-	   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
+		   	bool orig = gui.showGUI;
+		   	gui.showGUI = gui.showGUI && !Player.main.IsInBase();
+		   	SNUtil.writeToChat(orig+"+"+Player.main.currentSub+">"+gui.showGUI);*/
 			if (gui && Player.main && Camera.main)
-				gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase || Vector3.Distance(Camera.main.transform.position, Player.main.transform.position) > 4);
+				gui.gameObject.SetActive(Player.main.currentSub == null || !Player.main.currentSub.isBase || Player.main.GetBiomeString() == "observatory" || Vector3.Distance(Camera.main.transform.position, Player.main.transform.position) > 4);
 		}
 	   
 		public static void setResourcePingType(uGUI_ResourceTracker.Blip blip, TechType type) { //default color is 0xFFBA00
