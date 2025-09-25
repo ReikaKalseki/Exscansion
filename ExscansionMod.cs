@@ -43,7 +43,7 @@ namespace ReikaKalseki.Exscansion {
 			SNUtil.checkModHash(modDLL);
 
 			abandonedBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AbandonedBase", "Titanium Mass", ""));
-			alienBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AlienBase", "Unidentified Object", ""));
+			alienBase = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "AlienBase", "Unidentifiable Object", ""));
 			fossils = new ScannerRoomMarker(TechTypeHandler.AddTechType(modDLL, "Fossils", "Fossilized Remains", ""));
 			abandonedBase.Patch();
 			alienBase.Patch();

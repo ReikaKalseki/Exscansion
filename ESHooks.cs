@@ -49,7 +49,15 @@ namespace ReikaKalseki.Exscansion {
 				["5ea36b37-300f-4f01-96fa-003ae47c61e5"] = TechType.GhostLeviathanJuvenile,
 				["35ee775a-d54c-4e63-a058-95306346d582"] = TechType.SeaTreader,
 				["ff43eacd-1a9e-4182-ab7b-aa43c16d1e53"] = TechType.SeaDragon,
-				["c129d979-4f68-41d8-b9bc-557676d18a5a"] = TechType.TimeCapsule
+				["c129d979-4f68-41d8-b9bc-557676d18a5a"] = TechType.TimeCapsule,
+
+				["06856e8b-f612-495d-bc91-e9f629c0f689"] = ExscansionMod.alienBase.TechType, //underislands
+				["15378df5-5fce-4346-8811-267dd13d54fc"] = ExscansionMod.alienBase.TechType, //sparse reef
+				["15f55c15-2111-4ea8-bae0-20532029fe79"] = ExscansionMod.alienBase.TechType, //dunes
+				["57d96ba6-729c-4a33-ba3b-777b3c322ee8"] = ExscansionMod.alienBase.TechType, //mountains
+				["649ff503-126f-47b6-a446-6ac14f3bb533"] = ExscansionMod.alienBase.TechType, //mushroom
+				["e4897657-74bb-43fe-9b24-78ba26132055"] = ExscansionMod.alienBase.TechType, //grand reef
+				["a96ebe2c-3520-4181-9799-8d98649c3bbe"] = ExscansionMod.alienBase.TechType, //generic vent
 			};
 
 			if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES)) {
@@ -105,18 +113,17 @@ namespace ReikaKalseki.Exscansion {
 				TechType tt = scannerInjections[pi.ClassId];
 				if (tt == TechType.TimeCapsule && !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.TIMECAPSULE))
 					return;
+				if (tt == ExscansionMod.alienBase.TechType && !ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN))
+					return;
 				go.makeMapRoomScannable(tt, true);
 			}
-			else
-			if (pi && PrefabData.getPrefab(pi.ClassId) != null && PrefabData.getPrefab(pi.ClassId).Contains("Coral_reef_jeweled_disk")) {
+			else if (pi && PrefabData.getPrefab(pi.ClassId) != null && PrefabData.getPrefab(pi.ClassId).Contains("Coral_reef_jeweled_disk")) {
 				go.makeMapRoomScannable(TechType.JeweledDiskPiece);
 			}
-			else
-			if (go.isPDA()) {
+			else if (go.isPDA()) {
 				go.makeMapRoomScannable(TechType.PDA);
 			}
-			else
-			if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES) && go.GetComponent<SeabaseReconstruction.WorldgenSeabaseController>()) {
+			else if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES) && go.GetComponent<SeabaseReconstruction.WorldgenSeabaseController>()) {
 				go.makeMapRoomScannable(ExscansionMod.abandonedBase.TechType);
 			}/*
 	    	else if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.ALIEN) && go.GetComponent<PrecursorTeleporter>()) {
