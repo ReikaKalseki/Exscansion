@@ -21,13 +21,14 @@ namespace ReikaKalseki.Exscansion {
 		public static class UpdateScannerHoloScale {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					RangePatchLib.replaceMaxRangeReference(codes);
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -41,14 +42,15 @@ namespace ReikaKalseki.Exscansion {
 		public static class UpdateScannerResourceDistanceCheck {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					InsnList li = new InsnList{InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "getScannerMaxRangeSq", false, new string[0])};
 					codes.replaceConstantWithMethodCall(250000F, li);
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -69,13 +71,14 @@ namespace ReikaKalseki.Exscansion {
 			}
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					RangePatchLib.replaceMaxRangeReference(codes);
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -89,15 +92,16 @@ namespace ReikaKalseki.Exscansion {
 		public static class MainScannerRangePatch {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					RangePatchLib.replaceBaseRangeReference(codes);
 					RangePatchLib.replaceMaxRangeReference(codes);
 					RangePatchLib.replaceRangeBonusReference(codes);
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -111,14 +115,15 @@ namespace ReikaKalseki.Exscansion {
 		public static class ScannerSpeedPatch {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					RangePatchLib.replaceBaseSpeedReference(codes);
 					RangePatchLib.replaceSpeedBonusReference(codes);
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -161,6 +166,7 @@ namespace ReikaKalseki.Exscansion {
 		public static class ScannerFilteringHook {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {/*
 				codes.add(OpCodes.Ldarg_0);
@@ -168,10 +174,10 @@ namespace ReikaKalseki.Exscansion {
 				codes.add(OpCodes.Ret);*/
 					CodeInstruction br = codes[2];
 					codes.patchInitialHook(new CodeInstruction(OpCodes.Ldarg_0), InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "isObjectVisibleToScannerRoom", false, typeof(ResourceTracker)), new CodeInstruction(OpCodes.Brfalse, br.operand));
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -185,16 +191,17 @@ namespace ReikaKalseki.Exscansion {
 		public static class ScannerFilteringHook2 {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {/*
 				codes.add(OpCodes.Ldarg_0);
 				codes.invoke("ReikaKalseki.Exscansion.ESHooks", "registerResourceTracker", false, typeof(ResourceTracker));
 				codes.add(OpCodes.Ret);*/
 					codes.patchInitialHook(new CodeInstruction(OpCodes.Ldarg_0), InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "initializeResourceTracker", false, typeof(ResourceTracker)));
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -208,14 +215,15 @@ namespace ReikaKalseki.Exscansion {
 		public static class PingHUDVisibility {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					CodeInstruction call = InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "updatePingHUDVisibility", false, typeof(uGUI_ResourceTracker));
 					codes.patchEveryReturnPre(new CodeInstruction(OpCodes.Ldarg_0), call);
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());
@@ -229,14 +237,15 @@ namespace ReikaKalseki.Exscansion {
 		public static class PingHUDGenerationHook {
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+				InstructionHandlers.logPatchStart(MethodBase.GetCurrentMethod(), instructions);
 				InsnList codes = new InsnList(instructions);
 				try {
 					int idx = InstructionHandlers.getInstruction(codes, 0, 1, OpCodes.Stfld, "uGUI_ResourceTracker+Blip", "techType");
 					codes[idx] = InstructionHandlers.createMethodCall("ReikaKalseki.Exscansion.ESHooks", "setResourcePingType", false, typeof(uGUI_ResourceTracker.Blip), typeof(TechType));
-					FileLog.Log("Done patch " + MethodBase.GetCurrentMethod().DeclaringType);
+					InstructionHandlers.logCompletedPatch(MethodBase.GetCurrentMethod(), instructions);
 				}
 				catch (Exception e) {
-					FileLog.Log("Caught exception when running patch " + MethodBase.GetCurrentMethod().DeclaringType + "!");
+					InstructionHandlers.logErroredPatch(MethodBase.GetCurrentMethod());
 					FileLog.Log(e.Message);
 					FileLog.Log(e.StackTrace);
 					FileLog.Log(e.ToString());

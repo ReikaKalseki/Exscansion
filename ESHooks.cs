@@ -50,14 +50,6 @@ namespace ReikaKalseki.Exscansion {
 				["35ee775a-d54c-4e63-a058-95306346d582"] = TechType.SeaTreader,
 				["ff43eacd-1a9e-4182-ab7b-aa43c16d1e53"] = TechType.SeaDragon,
 				["c129d979-4f68-41d8-b9bc-557676d18a5a"] = TechType.TimeCapsule,
-
-				["06856e8b-f612-495d-bc91-e9f629c0f689"] = ExscansionMod.alienBase.TechType, //underislands
-				["15378df5-5fce-4346-8811-267dd13d54fc"] = ExscansionMod.alienBase.TechType, //sparse reef
-				["15f55c15-2111-4ea8-bae0-20532029fe79"] = ExscansionMod.alienBase.TechType, //dunes
-				["57d96ba6-729c-4a33-ba3b-777b3c322ee8"] = ExscansionMod.alienBase.TechType, //mountains
-				["649ff503-126f-47b6-a446-6ac14f3bb533"] = ExscansionMod.alienBase.TechType, //mushroom
-				["e4897657-74bb-43fe-9b24-78ba26132055"] = ExscansionMod.alienBase.TechType, //grand reef
-				["a96ebe2c-3520-4181-9799-8d98649c3bbe"] = ExscansionMod.alienBase.TechType, //generic vent
 			};
 
 			if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.BASES)) {
@@ -77,6 +69,14 @@ namespace ReikaKalseki.Exscansion {
 				scannerInjections["2a579d8a-5833-4415-acf9-5d7c4d00c65e"] = ExscansionMod.alienBase.markerType; //lr arch
 				scannerInjections["beb02a51-139f-4cb1-b7fd-831f8d00e55e"] = ExscansionMod.alienBase.markerType; //koosh arch
 				scannerInjections["50716be9-fb9c-4da4-9f3f-8916cbdbfdaf"] = ExscansionMod.alienBase.markerType; //crag arch
+
+				scannerInjections["06856e8b-f612-495d-bc91-e9f629c0f689"] = ExscansionMod.alienBase.markerType; //underislands
+				scannerInjections["15378df5-5fce-4346-8811-267dd13d54fc"] = ExscansionMod.alienBase.markerType; //sparse reef
+				scannerInjections["15f55c15-2111-4ea8-bae0-20532029fe79"] = ExscansionMod.alienBase.markerType; //dunes
+				scannerInjections["57d96ba6-729c-4a33-ba3b-777b3c322ee8"] = ExscansionMod.alienBase.markerType; //mountains
+				scannerInjections["649ff503-126f-47b6-a446-6ac14f3bb533"] = ExscansionMod.alienBase.markerType; //mushroom
+				scannerInjections["e4897657-74bb-43fe-9b24-78ba26132055"] = ExscansionMod.alienBase.markerType; //grand reef
+				scannerInjections["a96ebe2c-3520-4181-9799-8d98649c3bbe"] = ExscansionMod.alienBase.markerType; //generic vent
 
 				//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 				//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
