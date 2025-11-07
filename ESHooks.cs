@@ -70,29 +70,16 @@ namespace ReikaKalseki.Exscansion {
 				scannerInjections["beb02a51-139f-4cb1-b7fd-831f8d00e55e"] = ExscansionMod.alienBase.markerType; //koosh arch
 				scannerInjections["50716be9-fb9c-4da4-9f3f-8916cbdbfdaf"] = ExscansionMod.alienBase.markerType; //crag arch
 
-				scannerInjections["06856e8b-f612-495d-bc91-e9f629c0f689"] = ExscansionMod.alienBase.markerType; //underislands
-				scannerInjections["15378df5-5fce-4346-8811-267dd13d54fc"] = ExscansionMod.alienBase.markerType; //sparse reef
-				scannerInjections["15f55c15-2111-4ea8-bae0-20532029fe79"] = ExscansionMod.alienBase.markerType; //dunes
-				scannerInjections["57d96ba6-729c-4a33-ba3b-777b3c322ee8"] = ExscansionMod.alienBase.markerType; //mountains
-				scannerInjections["649ff503-126f-47b6-a446-6ac14f3bb533"] = ExscansionMod.alienBase.markerType; //mushroom
-				scannerInjections["e4897657-74bb-43fe-9b24-78ba26132055"] = ExscansionMod.alienBase.markerType; //grand reef
-				scannerInjections["a96ebe2c-3520-4181-9799-8d98649c3bbe"] = ExscansionMod.alienBase.markerType; //generic vent
+				foreach (string s in ObjectUtil.getVents())
+					scannerInjections[s] = ExscansionMod.alienBase.markerType;
 
 				//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 				//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 				//scannerInjections[""] = ExscansionMod.alienBase.markerType; //
 			}
 			if (ExscansionMod.config.getBoolean(ESConfig.ConfigEntries.FOSSILS)) {
-				scannerInjections["0010bf17-15be-4350-955b-b4ac023815f3"] = ExscansionMod.fossils.markerType; //garg
-				scannerInjections["0552b196-d09a-45dd-b064-878966476179"] = ExscansionMod.fossils.markerType; //sea dragon
-				scannerInjections["0b6ea118-1c0b-4039-afdb-2d9b26401ad2"] = ExscansionMod.fossils.markerType; //generic 01 (ghost canyon, crossing)
-				scannerInjections["e10ff9a1-5f1e-4c4d-bf5f-170dba9e321b"] = ExscansionMod.fossils.markerType; //generic 02 (ghost canyon, crossing)
-				scannerInjections["358012ab-6be8-412d-85ee-263a733c88ba"] = ExscansionMod.fossils.markerType; //generic 03 (ghost canyon, crossing)
-				scannerInjections["8fe779a5-e907-4e9e-b748-1eee25589b34"] = ExscansionMod.fossils.markerType; //reaper
-				scannerInjections["bfe993b9-8d6d-441c-922e-7dc074d81d3f"] = ExscansionMod.fossils.markerType; //reaper 2
-				scannerInjections["71bf71c2-ecfb-47c0-aafe-040030d5954f"] = ExscansionMod.fossils.markerType; //drf specimen
-				scannerInjections["b250309e-5ad0-43ca-9297-f79e22915db6"] = ExscansionMod.fossils.markerType; //mini garg skull (ghost forest)
-				scannerInjections["0010bf17-15be-4350-955b-b4ac023815f3"] = ExscansionMod.fossils.markerType; //armored skull (ghost canyon)
+				foreach (string s in ObjectUtil.getFossils())
+					scannerInjections[s] = ExscansionMod.fossils.markerType;
 			}
 		}
 
